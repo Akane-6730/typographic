@@ -102,8 +102,8 @@ Call after theme load if `typographic-no-italic-font' or
 
 ;;; Prose modes
 
-(defvar typographic-serif-mode nil)
-(defvar typographic-sans-mode nil)
+(defvar typographic-serif-mode)
+(defvar typographic-sans-mode)
 
 (defun typographic--teardown-prose ()
   "Remove prose remaps from the current buffer."
@@ -133,27 +133,29 @@ Call after theme load if `typographic-no-italic-font' or
   (font-lock-add-keywords nil (list typographic--leading-ws) 'append)
   (font-lock-flush))
 
-(defmacro typographic--define-prose-mode (mode lighter latin cjk tag other)
-  "Define prose MODE with LIGHTER; fonts LATIN/CJK; fontset TAG; vs OTHER."
-  `(define-minor-mode ,mode
-     ,(format "Prose mode (%s)." tag)
-     :lighter ,lighter
-     :group 'typographic
-     (if ,mode
-         (progn
-           (setq ,other nil)
-           (typographic--activate-prose ,latin ,cjk ,tag))
-       (typographic--teardown-prose))))
+;;;###autoload
+(define-minor-mode typographic-serif-mode
+  "Prose mode (serif): body in variable pitch, code in fixed pitch."
+  :lighter " Serif"
+  :group 'typographic
+  (if typographic-serif-mode
+      (progn
+        (setq typographic-sans-mode nil)
+        (typographic--activate-prose
+         typographic-serif-latin typographic-serif-cjk "serif"))
+    (typographic--teardown-prose)))
 
 ;;;###autoload
-(typographic--define-prose-mode typographic-serif-mode " Serif"
-  typographic-serif-latin typographic-serif-cjk "serif"
-  typographic-sans-mode)
-
-;;;###autoload
-(typographic--define-prose-mode typographic-sans-mode " Sans"
-  typographic-sans-latin typographic-sans-cjk "sans"
-  typographic-serif-mode)
+(define-minor-mode typographic-sans-mode
+  "Prose mode (sans): body in variable pitch, code in fixed pitch."
+  :lighter " Sans"
+  :group 'typographic
+  (if typographic-sans-mode
+      (progn
+        (setq typographic-serif-mode nil)
+        (typographic--activate-prose
+         typographic-sans-latin typographic-sans-cjk "sans"))
+    (typographic--teardown-prose)))
 
 (provide 'typographic)
 ;;; typographic.el ends here
