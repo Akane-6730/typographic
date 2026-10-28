@@ -54,7 +54,14 @@
     org-link org-special-keyword org-meta-line org-checkbox org-priority
     org-todo org-done org-ellipsis org-tag org-date org-document-info-keyword
     org-hide org-property-value org-drawer
-    markdown-code-face markdown-pre-face markdown-table-face
+    markdown-ts-latex markdown-ts-code-block markdown-ts-code-span
+    markdown-ts-code-block-markup-hidden
+    markdown-ts-indented-code-block markdown-ts-in-code-block
+    markdown-ts-table markdown-ts-in-table
+    markdown-ts-delimiter markdown-ts-link markdown-ts-link-destination
+    markdown-ts-appear-table markdown-ts-appear-table-header
+    markdown-ts-appear-table-cell markdown-ts-appear-table-border
+    markdown-ts-appear-mathjax-source
     line-number)
   "Faces remapped to `fixed-pitch' in prose modes."
   :type '(repeat face)
